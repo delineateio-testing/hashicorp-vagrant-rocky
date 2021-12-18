@@ -1,0 +1,8 @@
+.vscode/
+.vagrant/
+.terraform/
+
+*.env
+*.todo
+.DS_Store
+Brewfile.lock.json
