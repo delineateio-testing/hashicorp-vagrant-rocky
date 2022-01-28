@@ -1,0 +1,24 @@
+---
+- name: osquery
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: osquery
+      block:
+        - name: add osquery gpg key
+          get_url:
+            url: https://pkg.osquery.io/rpm/GPG
+            dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-osquery
+        - name: add 'osquery-s3-rpm.repo'
+          get_url:
+            url: https://pkg.osquery.io/rpm/osquery-s3-rpm.repo
+            dest: /etc/yum.repos.d/osquery-s3-rpm.repo
+        - name: install osquery
+          yum:
+            name: osquery
+            state: latest

@@ -1,2 +1,4 @@
 brew "pyenv"
 brew "pyenv-virtualenv"
+cask "vagrant"
+cask "vagrant-manager"

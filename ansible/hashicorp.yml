@@ -1,0 +1,26 @@
+---
+- name: hashicorp
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: hashicorp
+      block:
+        - name: add hashicorp.repo
+          get_url:
+            url: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+            dest: /etc/yum.repos.d/hashicorp.repo
+        - name: install hashicorp tools
+          yum:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - boundary
+            - consul
+            - packer
+            - terraform
+            - waypoint

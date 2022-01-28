@@ -30,6 +30,17 @@ requirements:
 	@sed -i '' s/$(current)/$(repo)/g README.md
 	@sed -i '' s/$(current)/$(repo)/g .python-version
 
-init: --install rename --hooks
+init: --install rename --hooks up ssh
 
 rename: --venv --references
+
+up:
+	@vagrant up --provision --provider vm_ware
+	@vagrant ssh
+
+destroy:
+	@vagrant destroy -g -f
+
+clean:
+	@vagrant destroy -g -f
+	@rm -rf ./vagrant

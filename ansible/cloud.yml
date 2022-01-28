@@ -1,0 +1,28 @@
+---
+- name: cloud
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: gcp
+      block:
+        - name: add google-cloud-sdk.repo
+          copy:
+            src: ./config/google-cloud-sdk.repo
+            dest: /etc/yum.repos.d/google-cloud-sdk.repo
+        - name: install gcloud
+          dnf:
+            name: google-cloud-sdk
+            state: latest
+        - name: install gcp components
+          dnf:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - kubectl
+      become: true
+      become_user: root

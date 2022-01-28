@@ -1,0 +1,58 @@
+Vagrant.require_version ">=2.2.18"
+
+ANSIBLE_VERSION           = "2.9.27"
+ANSIBLE_PROVISIONING_PATH = "/code/ansible"
+ANSIBLE_PLAYBOOKS         = [
+                              "bootstrap.yml",
+                              "git.yml",
+                              "languages.yml",
+                              "cloud.yml",
+                              "hashicorp.yml",
+                              "docker.yml",
+                              "osquery.yml",
+                              "starship.yml",
+                              "cockpit.yml"
+                            ]
+ANSIBLE_VERBOSE           = false
+
+ENV["LC_ALL"] = "en_GB.UTF-8"
+
+Vagrant.configure("2") do |config|
+
+  # box setup
+  config.vm.hostname    = "development"
+  config.vm.box         = "bento/rockylinux-8"
+
+  # mounts ansible scripts only
+  config.vm.synced_folder ".", "/code"
+
+  # copies to expected location to avoid world writeable warning
+  # https://docs.ansible.com/ansible/devel/reference_appendices/config.html#cfg-in-world-writable-dir
+  Vagrant.configure("2") do |config|
+    config.vm.provision "file", source: "ansible.cfg", destination: "/etc/ansible/ansible.cfg"
+  end
+
+  # performs the standard provisioning
+  ANSIBLE_PLAYBOOKS.each do |playbook|
+    config.vm.provision "ansible_local", run: 'always' do |ansible|
+      ansible.verbose           = ANSIBLE_VERBOSE
+      ansible.version           = ANSIBLE_VERSION
+      ansible.provisioning_path = ANSIBLE_PROVISIONING_PATH
+      ansible.playbook          = "#{playbook}"
+    end
+  end
+
+  # performs the hardening of the box
+  config.vm.provision "ansible_local", run: 'always' do |ansible|
+    ansible.verbose           = ANSIBLE_VERBOSE
+    ansible.version           = ANSIBLE_VERSION
+    ansible.provisioning_path = ANSIBLE_PROVISIONING_PATH
+    ansible.galaxy_role_file  = "requirements.yml"
+    ansible.galaxy_roles_path = "/code/ansible/collections/"
+    ansible.galaxy_command    = "ansible-galaxy collection install -r %{role_file} -p %{roles_path} -f"
+    ansible.playbook          = "harden.yml"
+  end
+
+  config.vm.network "forwarded_port", guest: 9090, host: 9090, protocol: "tcp" # cockpit
+
+end

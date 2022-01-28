@@ -1,0 +1,63 @@
+---
+- name: bootstrap
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: packages
+      block:
+        - name: upgrade packages
+          yum: name=* state=latest
+        - name: install yum packages
+          yum:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - httpie
+            - jq
+            - mtr
+            - nano
+            - nmap
+            - snapd
+            - tree
+        - name: install dnf packages
+          dnf:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - libcgroup-tools
+            - neofetch
+        - name: start systemd
+          systemd:
+            name: "{{ item }}"
+            state: started
+          loop:
+            - snapd
+
+    - name: prompt
+      block:
+        - name: create ~/.hushlogin
+          file:
+            path: ~/.hushlogin
+            state: touch
+            modification_time: preserve
+            access_time: preserve
+        - name: configure ~/.bash_profile
+          blockinfile:
+            path: ~/.bash_profile
+            marker: '# <--- dir {mark} --->'
+            marker_begin: start
+            marker_end: end
+            block: |
+              if [ -d "/code" ]; then
+                  cd "/code"
+              fi
+              clear
+              echo
+              neofetch
+      become: true
+      become_user: vagrant

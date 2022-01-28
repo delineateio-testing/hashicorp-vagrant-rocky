@@ -1,0 +1,40 @@
+---
+- name: starship
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: starship
+      block:
+        - name: install starship
+          shell:
+            cmd: curl -fsSL https://starship.rs/install.sh | bash -s -- -y
+            creates: /usr/local/bin/starship
+          args:
+            warn: false
+        - name: configure ~/.bashrc
+          blockinfile:
+            path: ~/.bash_profile
+            marker: '# <--- starship {mark} --->'
+            marker_begin: start
+            marker_end: end
+            block: |
+              eval "$(starship init bash)"
+              set -o allexport
+              source /etc/os-release
+              set +o allexport
+              export OS="$NAME ($VERSION_ID)"
+        - name: add ~/.config
+          file:
+            path: ~/.config
+            state: directory
+        - name: add ~/.config/starship.toml
+          copy:
+            src: ./config/starship.toml
+            dest: ~/.config/starship.toml
+      become: true
+      become_user: vagrant

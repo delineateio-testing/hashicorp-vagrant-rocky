@@ -1,0 +1,33 @@
+---
+- name: docker
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: docker
+      block:
+        - name: install docker
+          block:
+            - name: install docker
+              yum:
+                name:
+                  - docker
+                state: latest
+        - name: suppress warning
+          file:
+            path: /etc/containers/nodocker
+            state: touch
+            modification_time: preserve
+            access_time: preserve
+      become: true
+      become_user: root
+
+    - name: pull images
+      command: docker pull '{{ item }}'
+      loop:
+        - "postgres:11.6-alpine"
+      become_user: vagrant

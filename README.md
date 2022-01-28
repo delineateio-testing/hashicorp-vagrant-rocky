@@ -11,13 +11,10 @@
   <h2 align="center">delineate.io</h2>
   <p align="center">portray or describe (something) precisely.</p>
 
-  <h3 align="center">[PROJECT_TITLE]</h3>
+  <h3 align="center">Hashicorp Vagrant Rocky Linux</h3>
 
   <p align="center">
-    [PROJECT_DESCRIPTION]
-    <br />
-    <a href="https://github.com/delineateio/oss-template"><strong>Explore the docs »</strong></a>
-    <br />
+    Provides the capability to provision a Rocky Linux VM
     <br />
     <a href="https://github.com/delineateio/oss-template">View Demo</a>
     ·
@@ -48,16 +45,13 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://delineate.io)
-The repo description should be added here and describe at least:
-
-* Purpose of the repo e.g. problem/opportunity statement
-* High level description of the overall approach/solution
+This repo provisions a general purpose Rocky Linux VM using Hashicorp Vagrant configured with RedHat Ansible.
 
 ## Built With
 
-Further logos can be inserted to highlight the specific technologies used to create the solution from [here](https://github.com/Ileriayo/markdown-badges).
-
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Ansible](https://img.shields.io/badge/ansible-%231A1918.svg?style=for-the-badge&logo=ansible&logoColor=white)
+![Vagrant](https://img.shields.io/badge/vagrant-%231563FF.svg?style=for-the-badge&logo=vagrant&logoColor=white)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 
 <!-- GETTING STARTED -->
@@ -70,7 +64,7 @@ To get a local copy up and running follow these simple steps.
 A number of local dependencies are required.  To review the local dependencies:
 
 * When using `MacOS` run `make requirements`
-* Otherwise run `cat Brewfile` to inspect the requirements
+* Otherwise run `cat brewfile` to inspect the requirements
 
 If additional dependencies are required they should be added to `Brewfile`, for more details please review the official `brew bundle` documentation [here](https://github.com/Homebrew/homebrew-bundle).
 
@@ -97,14 +91,21 @@ make repo=my-service rename
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+```shell
+# provisions the VM and ssh into it
+make up
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+# destroys the VM
+make destroy
+
+# cleans up local environment
+make clean
+```
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/capcodigital/oss-template/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/delineateio/oss-template/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -119,8 +120,8 @@ Contributions are what make the open source community such an amazing place to b
 
 If you would like to contribute to any Capco Digital OSS projects please read:
 
-* [Code of Conduct](https://github.com/capcodigital/.github/blob/master/CODE_OF_CONDUCT.md)
-* [Contributing Guidelines](https://github.com/capcodigital/.github/blob/master/CONTRIBUTING.md)
+* [Code of Conduct](https://github.com/delineateio/.github/blob/master/CODE_OF_CONDUCT.md)
+* [Contributing Guidelines](https://github.com/delineateio/.github/blob/master/CONTRIBUTING.md)
 
 <!-- LICENSE -->
 ## License
@@ -136,14 +137,13 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/capcodigital/oss-template.svg?style=for-the-badge
-[contributors-url]: https://github.com/capcodigital/oss-template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/capcodigital/oss-template.svg?style=for-the-badge
-[forks-url]: https://github.com/capcodigital/oss-template/network/members
-[stars-shield]: https://img.shields.io/github/stars/capcodigital/oss-template.svg?style=for-the-badge
-[stars-url]: https://github.com/capcodigital/oss-template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/capcodigital/oss-template.svg?style=for-the-badge
-[issues-url]: https://github.com/capcodigital/oss-template/issues
-[license-shield]: https://img.shields.io/github/license/capcodigital/oss-template.svg?style=for-the-badge
-[license-url]: https://github.com/capcodigital/oss-template/blob/master/LICENSE
-[product-screenshot]: images/screenshot.png
+[contributors-shield]: https://img.shields.io/github/contributors/delineateio/oss-template.svg?style=for-the-badge
+[contributors-url]: https://github.com/delineateio/oss-template/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/delineateio/oss-template.svg?style=for-the-badge
+[forks-url]: https://github.com/delineateio/oss-template/network/members
+[stars-shield]: https://img.shields.io/github/stars/delineateio/oss-template.svg?style=for-the-badge
+[stars-url]: https://github.com/delineateio/oss-template/stargazers
+[issues-shield]: https://img.shields.io/github/issues/delineateio/oss-template.svg?style=for-the-badge
+[issues-url]: https://github.com/delineateio/oss-template/issues
+[license-shield]: https://img.shields.io/github/license/delineateio/oss-template.svg?style=for-the-badge
+[license-url]: https://github.com/delineateio/oss-template/blob/master/LICENSE

@@ -1,6 +1,8 @@
 .vscode/
 .vagrant/
 .terraform/
+.build/
+ansible/collections
 
 *.env
 *.todo
