@@ -20,7 +20,7 @@
               export PATH="$HOME/go/bin:$PATH"
 
         - name: install go binaries
-          ansible.builtin.command: go install '{{ item }}'
+          ansible.builtin.command: /usr/bin/go install '{{ item }}'
           loop:
             - github.com/go-task/task/v3/cmd/task@latest
       become_user: vagrant

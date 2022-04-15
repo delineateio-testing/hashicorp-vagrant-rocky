@@ -17,17 +17,19 @@
             name: "{{ item }}"
             state: present
           loop:
+            - bzip2-devel
             - epel-release
             - httpie
             - jq
             - libffi-devel
             - mtr
             - nano
+            - neofetch
             - nmap
+            - readline-devel
             - snapd
+            - sqlite-devel
             - tree
-          async: 120
-          poll: 0
         - name: install dnf packages
           ansible.builtin.dnf:
             name: "{{ item }}"
@@ -35,16 +37,12 @@
           loop:
             - libcgroup-tools
             - neofetch
-          async: 120
-          poll: 0
         - name: start systemd
           ansible.builtin.systemd:
             name: "{{ item }}"
             state: started
           loop:
             - snapd
-          async: 120
-          poll: 0
 
     - name: prompt
       block:

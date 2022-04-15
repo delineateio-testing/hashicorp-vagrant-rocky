@@ -18,5 +18,3 @@
             - go
             - python39
             - scala
-          async: 120
-          poll: 0

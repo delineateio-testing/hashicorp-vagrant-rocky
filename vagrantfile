@@ -8,7 +8,7 @@ ANSIBLE_PLAYBOOKS         = [
                               "languages.yaml",
                               "python.yaml",
                               "golang.yaml",
-                s               "cloud.yaml",
+                              "cloud.yaml",
                               "hashicorp.yaml",
                               "docker.yaml",
                               "osquery.yaml",

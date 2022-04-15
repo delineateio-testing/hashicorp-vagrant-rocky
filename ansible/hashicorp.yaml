@@ -25,5 +25,3 @@
             - packer
             - terraform
             - waypoint
-          async: 120
-          poll: 0
