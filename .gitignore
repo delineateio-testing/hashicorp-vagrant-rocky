@@ -1,10 +1,11 @@
 .vscode/
 .vagrant/
-.terraform/
 .build/
 ansible/collections
 
 *.env
 *.todo
+.secrets.yaml
 .DS_Store
 Brewfile.lock.json
+.secrets.yaml

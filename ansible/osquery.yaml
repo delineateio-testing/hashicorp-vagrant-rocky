@@ -11,14 +11,16 @@
     - name: osquery
       block:
         - name: add osquery gpg key
-          get_url:
+          ansible.builtin.get_url:
             url: https://pkg.osquery.io/rpm/GPG
             dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-osquery
+            mode: '0444'
         - name: add 'osquery-s3-rpm.repo'
-          get_url:
+          ansible.builtin.get_url:
             url: https://pkg.osquery.io/rpm/osquery-s3-rpm.repo
             dest: /etc/yum.repos.d/osquery-s3-rpm.repo
+            mode: '0444'
         - name: install osquery
-          yum:
+          ansible.builtin.yum:
             name: osquery
-            state: latest
+            state: present

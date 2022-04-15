@@ -1,0 +1,47 @@
+---
+- name: git
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: add vars
+      ansible.builtin.include_vars:
+        dir: vars
+        extensions:
+          - 'yaml'
+
+    - name: git
+      block:
+        - name: install git
+          ansible.builtin.yum:
+            name: git
+            state: present
+        - name: add gh-cli.repo
+          ansible.builtin.get_url:
+            url: https://cli.github.com/packages/rpm/gh-cli.repo
+            dest: /etc/yum.repos.d/gh-cli.repo
+            mode: '0444'
+        - name: install 'gh'
+          ansible.builtin.dnf:
+            name: gh
+            state: present
+      become: true
+      become_user: root
+
+    - name: git config
+      block:
+        - name: git 'user.email' config
+          community.general.git_config:
+            name: user.email
+            scope: global
+            value: "{{ git.email }}"
+        - name: git 'user.name' config
+          community.general.git_config:
+            name: user.name
+            scope: global
+            value: "{{ git.name }}"
+      become_user: vagrant

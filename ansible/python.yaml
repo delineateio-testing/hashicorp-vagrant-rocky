@@ -1,0 +1,54 @@
+---
+- name: python
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: python
+      block:
+        - name: add ~/.pip
+          ansible.builtin.file:
+            path: ~/.pip
+            state: directory
+        - name: add ~/.pip/pip.conf
+          ansible.builtin.copy:
+            src: ./config/pip.conf
+            dest: ~/.pip/pip.conf
+        - name: add python aliases
+          ansible.builtin.blockinfile:
+            path: ~/.bash_profile
+            marker: '# <--- python alias {mark} --->'
+            marker_begin: start
+            marker_end: end
+            block: |
+              alias python=python3
+              alias pip=pip3
+        - name: install pyenv
+          ansible.builtin.git:
+            repo: https://github.com/pyenv/pyenv.git
+            dest: ~/.pyenv
+            update: true
+        - name: add pyenv config
+          ansible.builtin.blockinfile:
+            path: ~/.bash_profile
+            marker: '# <--- pyenv {mark} --->'
+            marker_begin: start
+            marker_end: end
+            block: |
+              export PYENV_ROOT="$HOME/.pyenv"
+              export PATH="$PYENV_ROOT/bin:$PATH"
+              eval "$(pyenv init --path)"
+              eval "$(pyenv init -)"
+        - name: add pyenv virtualenv config
+          ansible.builtin.blockinfile:
+            path: ~/.bash_profile
+            marker: '# <--- pyenv virtualenv {mark} --->'
+            marker_begin: start
+            marker_end: end
+            block: |
+              eval "$(pyenv virtualenv-init -)"
+      become_user: vagrant

@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  requirements: # skip
+  install: # skip
+  up: # skip
+  ssh: # skip
+  destroy: # skip
+  clean: # skip

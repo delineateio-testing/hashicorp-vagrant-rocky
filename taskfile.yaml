@@ -1,0 +1,62 @@
+version: '3'
+
+env:
+  PYTHON_VERSION: 3.9.1
+  REPO_NAME:
+    sh: cat .python-version
+
+# silent: true
+includes:
+  os: ./taskfile_{{OS}}.yaml
+
+tasks:
+  default:
+    cmds:
+      - task: init
+
+  init:
+    cmds:
+      - task: install
+      - task: venv
+      - task: hooks
+      - task: up
+
+  requirements:
+    cmds:
+      - task: os:requirements
+
+  install:
+    cmds:
+      - task: os:install
+
+  venv:
+    cmds:
+      - pyenv install $PYTHON_VERSION -s
+      - pyenv virtualenv -f -q $PYTHON_VERSION $REPO_NAME 1> /dev/null
+      - pip install -q --upgrade pip
+      - pip install -Uqr requirements.txt
+
+  hooks:
+    cmds:
+      - git add .
+      - pre-commit autoupdate
+      - pre-commit install
+      - pre-commit run --all-files
+
+  up:
+    cmds:
+      - task: os:up
+
+  ssh:
+    cmds:
+      - task: os:ssh
+    silent: true
+
+  destroy:
+    cmds:
+      - task: os:destroy
+    silent: true
+
+  clean:
+    cmds:
+      - task: so:clean

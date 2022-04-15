@@ -3,15 +3,16 @@ Vagrant.require_version ">=2.2.18"
 ANSIBLE_VERSION           = "2.9.27"
 ANSIBLE_PROVISIONING_PATH = "/code/ansible"
 ANSIBLE_PLAYBOOKS         = [
-                              "bootstrap.yml",
-                              "git.yml",
-                              "languages.yml",
-                              "cloud.yml",
-                              "hashicorp.yml",
-                              "docker.yml",
-                              "osquery.yml",
-                              "starship.yml",
-                              "cockpit.yml"
+                              "bootstrap.yaml",
+                              "git.yaml",
+                              "languages.yaml",
+                              "python.yaml",
+                              "golang.yaml",
+                s               "cloud.yaml",
+                              "hashicorp.yaml",
+                              "docker.yaml",
+                              "osquery.yaml",
+                              "starship.yaml",
                             ]
 ANSIBLE_VERBOSE           = false
 
@@ -47,12 +48,10 @@ Vagrant.configure("2") do |config|
     ansible.verbose           = ANSIBLE_VERBOSE
     ansible.version           = ANSIBLE_VERSION
     ansible.provisioning_path = ANSIBLE_PROVISIONING_PATH
-    ansible.galaxy_role_file  = "requirements.yml"
+    ansible.galaxy_role_file  = "requirements.yaml"
     ansible.galaxy_roles_path = "/code/ansible/collections/"
     ansible.galaxy_command    = "ansible-galaxy collection install -r %{role_file} -p %{roles_path} -f"
-    ansible.playbook          = "harden.yml"
+    ansible.playbook          = "harden.yaml"
   end
-
-  config.vm.network "forwarded_port", guest: 9090, host: 9090, protocol: "tcp" # cockpit
 
 end

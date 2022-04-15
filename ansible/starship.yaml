@@ -11,13 +11,13 @@
     - name: starship
       block:
         - name: install starship
-          shell:
-            cmd: curl -fsSL https://starship.rs/install.sh | bash -s -- -y
+          ansible.builtin.shell:
+            cmd: curl -fsSL https://starship.rs/install.sh | sh -s -- -y
             creates: /usr/local/bin/starship
           args:
             warn: false
         - name: configure ~/.bashrc
-          blockinfile:
+          ansible.builtin.blockinfile:
             path: ~/.bash_profile
             marker: '# <--- starship {mark} --->'
             marker_begin: start
@@ -29,11 +29,11 @@
               set +o allexport
               export OS="$NAME ($VERSION_ID)"
         - name: add ~/.config
-          file:
+          ansible.builtin.file:
             path: ~/.config
             state: directory
         - name: add ~/.config/starship.toml
-          copy:
+          ansible.builtin.copy:
             src: ./config/starship.toml
             dest: ~/.config/starship.toml
       become: true

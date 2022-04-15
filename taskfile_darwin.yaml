@@ -1,0 +1,27 @@
+version: '3'
+
+tasks:
+  requirements: bundle list
+
+  install: brew bundle install
+
+  up:
+    cmds:
+      - vagrant up --provision --provider vmware_desktop
+
+  ssh:
+    cmds:
+      - vagrant ssh
+    silent: true
+
+  destroy:
+    cmds:
+      - vagrant destroy -g -f
+    silent: true
+
+  clean:
+    cmds:
+      - vagrant destroy -g -f
+      - rm -rf ./.vagrant
+      - launchctl stop com.vagrant.vagrant-vmware-utility
+      - launchctl start com.vagrant.vagrant-vmware-utility

@@ -11,17 +11,18 @@
     - name: gcp
       block:
         - name: add google-cloud-sdk.repo
-          copy:
+          ansible.builtin.copy:
             src: ./config/google-cloud-sdk.repo
             dest: /etc/yum.repos.d/google-cloud-sdk.repo
+            mode: '0444'
         - name: install gcloud
-          dnf:
+          ansible.builtin.dnf:
             name: google-cloud-sdk
-            state: latest
+            state: present
         - name: install gcp components
-          dnf:
+          ansible.builtin.dnf:
             name: "{{ item }}"
-            state: latest
+            state: present
           loop:
             - kubectl
       become: true

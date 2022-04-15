@@ -1,0 +1,26 @@
+---
+- name: golang
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: git
+      block:
+        - name: add go to $PATH
+          ansible.builtin.blockinfile:
+            path: ~/.bash_profile
+            marker: '# <--- golang {mark} --->'
+            marker_begin: start
+            marker_end: end
+            block: |
+              export PATH="$HOME/go/bin:$PATH"
+
+        - name: install go binaries
+          ansible.builtin.command: go install '{{ item }}'
+          loop:
+            - github.com/go-task/task/v3/cmd/task@latest
+      become_user: vagrant

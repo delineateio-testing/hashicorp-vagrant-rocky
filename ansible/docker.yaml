@@ -11,23 +11,22 @@
     - name: docker
       block:
         - name: install docker
-          block:
-            - name: install docker
-              yum:
-                name:
-                  - docker
-                state: latest
+          ansible.builtin.yum:
+            name:
+              - docker
+            state: present
         - name: suppress warning
-          file:
+          ansible.builtin.file:
             path: /etc/containers/nodocker
             state: touch
             modification_time: preserve
             access_time: preserve
+            mode: '0444'
       become: true
       become_user: root
 
     - name: pull images
-      command: docker pull '{{ item }}'
+      ansible.builtin.command: docker pull '{{ item }}'
       loop:
-        - "postgres:11.6-alpine"
+        - 'postgres:11.6-alpine'
       become_user: vagrant

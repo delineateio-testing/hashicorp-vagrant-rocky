@@ -11,43 +11,52 @@
     - name: packages
       block:
         - name: upgrade packages
-          yum: name=* state=latest
+          ansible.builtin.yum: name=* state=latest # noqa 403
         - name: install yum packages
-          yum:
+          ansible.builtin.yum:
             name: "{{ item }}"
-            state: latest
+            state: present
           loop:
+            - epel-release
             - httpie
             - jq
+            - libffi-devel
             - mtr
             - nano
             - nmap
             - snapd
             - tree
+          async: 120
+          poll: 0
         - name: install dnf packages
-          dnf:
+          ansible.builtin.dnf:
             name: "{{ item }}"
-            state: latest
+            state: present
           loop:
             - libcgroup-tools
             - neofetch
+          async: 120
+          poll: 0
         - name: start systemd
-          systemd:
+          ansible.builtin.systemd:
             name: "{{ item }}"
             state: started
           loop:
             - snapd
+          async: 120
+          poll: 0
 
     - name: prompt
       block:
         - name: create ~/.hushlogin
-          file:
+          ansible.builtin.file:
             path: ~/.hushlogin
             state: touch
             modification_time: preserve
             access_time: preserve
+            mode: '0444'
         - name: configure ~/.bash_profile
-          blockinfile:
+          ansible.builtin.blockinfile:
             path: ~/.bash_profile
             marker: '# <--- dir {mark} --->'
             marker_begin: start

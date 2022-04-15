@@ -1,0 +1,22 @@
+---
+- name: languages
+  connection: local
+  gather_facts: false
+  hosts: all
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
+  become: true
+  tasks:
+
+    - name: languages
+      block:
+        - name: install packages
+          ansible.builtin.yum:
+            name: "{{ item }}"
+            state: present
+          loop:
+            - go
+            - python39
+            - scala
+          async: 120
+          poll: 0
